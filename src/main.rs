@@ -23,6 +23,22 @@ fn match_pattern(input_line: &str, pattern: &str) -> bool {
         return is_alphanumeric(input_line);
     }
 
+    // check for positive character group
+    if pattern.starts_with("[") && pattern.ends_with("]") {
+        // get the string between [ and ]
+        let chars = pattern
+            .chars()
+            .skip(1)
+            .take_while(|c| *c != ']')
+            .collect::<String>();
+        for char in chars.chars() {
+            if input_line.contains(char) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     panic!("Unhandled pattern: {}", pattern)
 }
 
