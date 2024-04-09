@@ -26,11 +26,22 @@ fn match_pattern(input_line: &str, pattern: &str) -> bool {
     // check for positive character group
     if pattern.starts_with("[") && pattern.ends_with("]") {
         // get the string between [ and ]
+
         let chars = pattern
             .chars()
             .skip(1)
             .take_while(|c| *c != ']')
             .collect::<String>();
+
+        if chars.contains("^") {
+            for char in chars.chars().skip(1) {
+                if input_line.contains(char) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         for char in chars.chars() {
             if input_line.contains(char) {
                 return true;
@@ -38,6 +49,8 @@ fn match_pattern(input_line: &str, pattern: &str) -> bool {
         }
         return false;
     }
+
+    // support for navigating character group
 
     panic!("Unhandled pattern: {}", pattern)
 }
