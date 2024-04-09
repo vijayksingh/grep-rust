@@ -6,6 +6,10 @@ fn contains_digits(s: &str) -> bool {
     s.chars().any(|c| c.is_digit(10))
 }
 
+fn is_alphanumeric(s: &str) -> bool {
+    s.chars().any(|c| c.is_alphanumeric())
+}
+
 fn match_pattern(input_line: &str, pattern: &str) -> bool {
     if pattern.chars().count() == 1 {
         return input_line.contains(pattern);
@@ -13,6 +17,10 @@ fn match_pattern(input_line: &str, pattern: &str) -> bool {
 
     if pattern == "\\d" {
         return contains_digits(input_line);
+    }
+
+    if pattern == "\\w" {
+        return is_alphanumeric(input_line);
     }
 
     panic!("Unhandled pattern: {}", pattern)
